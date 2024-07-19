@@ -1,27 +1,5 @@
 import { defineConfig, devices } from '@playwright/test';
 
-import { PlaywrightTestConfig } from '@playwright/test';
-
-const config: PlaywrightTestConfig = {
-  testDir: './tests',
-  use: {
-    baseURL: 'http://localhost:5173',
-  },
-  // other configurations...
-};
-
-export default config;
-
-/**
- * Read environment variables from file.
- * https://github.com/motdotla/dotenv
- */
-// import dotenv from 'dotenv';
-// dotenv.config({ path: path.resolve(__dirname, '.env') });
-
-/**
- * See https://playwright.dev/docs/test-configuration.
- */
 export default defineConfig({
   testDir: './tests',
   /* Run tests in files in parallel */
