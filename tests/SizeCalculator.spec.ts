@@ -64,4 +64,14 @@ test.describe('SizeCalculator', () => {
     const errorMessage = page.locator('text=Your hips measurement is too large for this size calculator.');
     await expect(errorMessage).toBeVisible();
   });
+
+  test('should show that when measurements are entered and the "See My Sizes" button is clicked that "Closest Size Matches" is displayed', async ({ page }) => {
+    await page.fill('#bust', '36.5');
+    await page.fill('#waist', '30');
+    await page.fill('#hips', '39.5');
+    await page.getByRole('button').click();
+    
+    const sizeMatches = page.getByText('Closest Size Matches');
+    await expect(sizeMatches).toBeVisible();
+  });
 });
