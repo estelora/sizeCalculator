@@ -108,15 +108,102 @@ test.describe('SizeCalculator', () => {
       await expect(bananaRepublicSize8).toBeVisible();
     });
 
-    test('should show when in-range measurements (bust 36.5, waist 30, hips 39.5) are entered and the "See My Sizes" button is clicked that Size 8 for the J Crew brand is displayed', async ({ page }) => {
-        await page.fill('#bust', '36.5');
-        await page.fill('#waist', '30');
-        await page.fill('#hips', '39.5');
-        await page.getByRole('button').click();
+  test('should show when in-range measurements (bust 36.5, waist 30, hips 39.5) are entered and the "See My Sizes" button is clicked that Size 8 for the J Crew brand is displayed', async ({ page }) => {
+      await page.fill('#bust', '36.5');
+      await page.fill('#waist', '30');
+      await page.fill('#hips', '39.5');
+      await page.getByRole('button').click();
 
-        const jCrewSize8 = page.getByText('Size 8').last(); 
-        await jCrewSize8.scrollIntoViewIfNeeded();
-        await expect(jCrewSize8).toBeVisible();
+      const jCrewSize8 = page.getByText('Size 8').last(); 
+      await jCrewSize8.scrollIntoViewIfNeeded();
+      await expect(jCrewSize8).toBeVisible();
     });
 
+  test('should show when low edge case measurements (bust 31.5, waist 24.5, hips 34.5) are entered and the "See My Sizes" button is clicked that Size 2 for the Zara brand is displayed', async ({ page }) => {
+    await page.fill('#bust', '31.5');
+    await page.fill('#waist', '24.5');
+    await page.fill('#hips', '34.5');
+    await page.getByRole('button').click();
+
+    const zaraSize2 = page.getByText('Size 2').nth(0); 
+    await zaraSize2.scrollIntoViewIfNeeded();
+    await expect(zaraSize2).toBeVisible();
+    }); 
+
+    test('should show when low edge case measurements (bust 31.5, waist 24.5, hips 34.5) are entered and the "See My Sizes" button is clicked that Size 2 for the Talbots brand is displayed', async ({ page }) => {
+      await page.fill('#bust', '31.5');
+      await page.fill('#waist', '24.5');
+      await page.fill('#hips', '34.5');
+      await page.getByRole('button').click();
+  
+      const talbotsSize2 = page.getByText('Size 2').nth(1); 
+      await talbotsSize2.scrollIntoViewIfNeeded();
+      await expect(talbotsSize2).toBeVisible();
+      }); 
+
+    test('should show when low edge case measurements (bust 31.5, waist 24.5, hips 34.5) are entered and the "See My Sizes" button is clicked that Size 0 for the Banana Republic brand is displayed', async ({ page }) => {
+      await page.fill('#bust', '31.5');
+      await page.fill('#waist', '24.5');
+      await page.fill('#hips', '34.5');
+      await page.getByRole('button').click();
+  
+      const bananaRepublicSize0 = page.getByText('Size 0').nth(0); 
+      await bananaRepublicSize0.scrollIntoViewIfNeeded();
+      await expect(bananaRepublicSize0).toBeVisible();
+      });
+      
+    test('should show when low edge case measurements (bust 31.5, waist 24.5, hips 34.5) are entered and the "See My Sizes" button is clicked that Size 0 for the J Crew brand is displayed', async ({ page }) => {
+      await page.fill('#bust', '31.5');
+      await page.fill('#waist', '24.5');
+      await page.fill('#hips', '34.5');
+      await page.getByRole('button').click();
+  
+      const jCrewSize0 = page.getByText('Size 0').nth(1); 
+      await jCrewSize0.scrollIntoViewIfNeeded();
+      await expect(jCrewSize0).toBeVisible();
+      });
+
+    test('should show when high edge case measurements (bust 54.25, waist 46, hips 56.25) are entered and the "See My Sizes" button is clicked that Size 14 for the Zara brand is displayed', async ({ page }) => {
+      await page.fill('#bust', '54.25');
+      await page.fill('#waist', '46');
+      await page.fill('#hips', '56.25');
+      await page.getByRole('button').click();
+  
+      const zaraSize14 = page.getByText('Size 14'); 
+      await zaraSize14.scrollIntoViewIfNeeded();
+      await expect(zaraSize14).toBeVisible();
+      });
+
+    test('should show when high edge case measurements (bust 54.25, waist 46, hips 56.25) are entered and the "See My Sizes" button is clicked that Size 18 for the Talbots brand is displayed', async ({ page }) => {
+      await page.fill('#bust', '54.25');
+      await page.fill('#waist', '46');
+      await page.fill('#hips', '56.25');
+      await page.getByRole('button').click();
+  
+      const talbotsSize18 = page.getByText('Size 18'); 
+      await talbotsSize18.scrollIntoViewIfNeeded();
+      await expect(talbotsSize18).toBeVisible();
+      });
+
+    test('should show when high edge case measurements (bust 54.25, waist 46, hips 56.25) are entered and the "See My Sizes" button is clicked that Size 20 for the Banana Republic brand is displayed', async ({ page }) => {
+      await page.fill('#bust', '54.25');
+      await page.fill('#waist', '46');
+      await page.fill('#hips', '56.25');
+      await page.getByRole('button').click();
+  
+      const bananaRepublicSize20 = page.getByText('Size 20').nth(0); 
+      await bananaRepublicSize20.scrollIntoViewIfNeeded();
+      await expect(bananaRepublicSize20).toBeVisible();
+      });
+      
+    test('should show when high edge case measurements (bust 54.25, waist 46, hips 56.25) are entered and the "See My Sizes" button is clicked that Size 20 for the J Crew brand is displayed', async ({ page }) => {
+      await page.fill('#bust', '54.25');
+      await page.fill('#waist', '46');
+      await page.fill('#hips', '56.25');
+      await page.getByRole('button').click();
+  
+      const jCrewSize20 = page.getByText('Size 20').nth(1); 
+      await jCrewSize20.scrollIntoViewIfNeeded();
+      await expect(jCrewSize20).toBeVisible();
+      });
 });
