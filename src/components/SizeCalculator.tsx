@@ -65,7 +65,7 @@ const SizeCalculator = () => {
     ],
   };
 
-  const handleInputChange = (e) => {
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setMeasurements(prev => ({ ...prev, [name]: value }));
 
@@ -78,7 +78,7 @@ const SizeCalculator = () => {
     }
   };
 
-  const checkWaistMeasurement = (waist) => {
+  const checkWaistMeasurement = (waist: number) => {
     if (waist <= smallestWaist - 1) {
       setWaistError("Your waist measurement is too small for this size calculator.");
     } else if (waist >= largestWaist + 1) {
@@ -88,7 +88,7 @@ const SizeCalculator = () => {
     }
   };
 
-  const checkBustMeasurement = (bust) => {
+  const checkBustMeasurement = (bust: number) => {
     if (bust <= smallestBust - 1) {
       setBustError("Your bust measurement is too small for this size calculator.");
     } else if (bust >= largestBust + 1) {
@@ -98,7 +98,7 @@ const SizeCalculator = () => {
     }
   };
 
-  const checkHipsMeasurement = (hips) => {
+  const checkHipsMeasurement = (hips: number) => {
     if (hips <= smallestHips - 1) {
       setHipsError("Your hips measurement is too small for this size calculator.");
     } else if (hips >= largestHips + 1) {
