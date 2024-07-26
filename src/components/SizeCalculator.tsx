@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 
 const SizeCalculator = () => {
-  const [measurements, setMeasurements] = useState({ bust: '', waist: '', hips: '' });
+  const [measurements, setMeasurements] = useState<{ bust: number; waist: number; hips: number }>({ bust: 0, waist: 0, hips: 0 });
   const [showResults, setShowResults] = useState(false);
   const [waistError, setWaistError] = useState('');
   const [bustError, setBustError] = useState('');
@@ -65,20 +65,21 @@ const SizeCalculator = () => {
     ],
   };
 
-  const handleInputChange = (e) => {
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    setMeasurements(prev => ({ ...prev, [name]: value }));
-
+    const numValue = parseFloat(value) || 0; // Convert to number, use 0 if NaN
+    setMeasurements(prev => ({ ...prev, [name]: numValue }));
+  
     if (name === 'waist') {
-      checkWaistMeasurement(parseFloat(value));
+      checkWaistMeasurement(numValue);
     } else if (name === 'bust') {
-      checkBustMeasurement(parseFloat(value));
+      checkBustMeasurement(numValue);
     } else if (name === 'hips') {
-      checkHipsMeasurement(parseFloat(value));
+      checkHipsMeasurement(numValue);
     }
   };
 
-  const checkWaistMeasurement = (waist) => {
+  const checkWaistMeasurement = (waist: number) => {
     if (waist <= smallestWaist - 1) {
       setWaistError("Your waist measurement is too small for this size calculator.");
     } else if (waist >= largestWaist + 1) {
@@ -88,7 +89,7 @@ const SizeCalculator = () => {
     }
   };
 
-  const checkBustMeasurement = (bust) => {
+  const checkBustMeasurement = (bust: number) => {
     if (bust <= smallestBust - 1) {
       setBustError("Your bust measurement is too small for this size calculator.");
     } else if (bust >= largestBust + 1) {
@@ -98,7 +99,7 @@ const SizeCalculator = () => {
     }
   };
 
-  const checkHipsMeasurement = (hips) => {
+  const checkHipsMeasurement = (hips: number) => {
     if (hips <= smallestHips - 1) {
       setHipsError("Your hips measurement is too small for this size calculator.");
     } else if (hips >= largestHips + 1) {
@@ -116,7 +117,7 @@ const SizeCalculator = () => {
 
   const calculateSizes = () => {
     if (!showResults) return null;
-
+  
     return Object.entries(sizeCharts).map(([brand, sizes]) => {
       const closestSize = sizes.reduce((closest, current) => {
         const currentDiff = Math.abs(current.bust - measurements.bust) +
@@ -127,7 +128,7 @@ const SizeCalculator = () => {
                             Math.abs(closest.hips - measurements.hips);
         return currentDiff < closestDiff ? current : closest;
       });
-
+  
       const bustDiff = (measurements.bust - closestSize.bust).toFixed(2);
       const waistDiff = (measurements.waist - closestSize.waist).toFixed(2);
       const hipsDiff = (measurements.hips - closestSize.hips).toFixed(2);
