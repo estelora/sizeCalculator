@@ -17,11 +17,11 @@ const isValidMeasurements = (measurements: Measurements): measurements is NonNul
 };
 
 const SizeCalculator = () => {
-    const [measurements, setMeasurements] = useState<Measurements>({ bust: null, waist: null, hips: null });
-    const [showResults, setShowResults] = useState(false);
-    const [waistError, setWaistError] = useState('');
-    const [bustError, setBustError] = useState('');
-    const [hipsError, setHipsError] = useState('');
+  const [measurements, setMeasurements] = useState<Measurements>({ bust: null, waist: null, hips: null });
+  const [showResults, setShowResults] = useState(false);
+  const [waistError, setWaistError] = useState('');
+  const [bustError, setBustError] = useState('');
+  const [hipsError, setHipsError] = useState('');
 
   // Smallest and largest measurements from the data
   const smallestWaist = 25; // Smallest waist size from Zara's data
@@ -99,7 +99,6 @@ const SizeCalculator = () => {
           break;
       }
     } else {
-      // Clear error when input is empty
       switch (name) {
         case 'waist':
           setWaistError('');
@@ -145,32 +144,30 @@ const SizeCalculator = () => {
   };
 
   const handleSeeMySizes = () => {
-    if (!waistError && !bustError && !hipsError) {
+    if (isValidMeasurements(measurements) && !waistError && !bustError && !hipsError) {
       setShowResults(true);
     }
   };
 
   const calculateSizes = () => {
-    if (!showResults || measurements.bust === null || measurements.waist === null || measurements.hips === null) return null;
-  
-    const validMeasurements: Required<Measurements> = measurements as Required<Measurements>;
+    if (!showResults || !isValidMeasurements(measurements)) return null;
   
     return Object.entries(sizeCharts).map(([brand, sizes]) => {
       const closestSize = sizes.reduce((closest, current) => {
         const currentDiff = 
-          Math.abs(current.bust - validMeasurements.bust) +
-          Math.abs(current.waist - validMeasurements.waist) +
-          Math.abs(current.hips - validMeasurements.hips);
+          Math.abs(current.bust - measurements.bust) +
+          Math.abs(current.waist - measurements.waist) +
+          Math.abs(current.hips - measurements.hips);
         const closestDiff = 
-          Math.abs(closest.bust - validMeasurements.bust) +
-          Math.abs(closest.waist - validMeasurements.waist) +
-          Math.abs(closest.hips - validMeasurements.hips);
+          Math.abs(closest.bust - measurements.bust) +
+          Math.abs(closest.waist - measurements.waist) +
+          Math.abs(closest.hips - measurements.hips);
         return currentDiff < closestDiff ? current : closest;
       });
   
-      const bustDiff = (validMeasurements.bust - closestSize.bust).toFixed(2);
-      const waistDiff = (validMeasurements.waist - closestSize.waist).toFixed(2);
-      const hipsDiff = (validMeasurements.hips - closestSize.hips).toFixed(2);
+      const bustDiff = (measurements.bust - closestSize.bust).toFixed(2);
+      const waistDiff = (measurements.waist - closestSize.waist).toFixed(2);
+      const hipsDiff = (measurements.hips - closestSize.hips).toFixed(2);
 
       return (
         <li key={brand} className="p-3 bg-white rounded-lg shadow mb-4">
@@ -210,7 +207,7 @@ const SizeCalculator = () => {
             type="number"
             id="waist"
             name="waist"
-            value={measurements.bust ?? ''}
+            value={measurements.waist ?? ''}
             onChange={handleInputChange}
             className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 bg-white text-black"
           />
@@ -224,7 +221,7 @@ const SizeCalculator = () => {
             type="number"
             id="hips"
             name="hips"
-            value={measurements.bust ?? ''}
+            value={measurements.hips ?? ''}
             onChange={handleInputChange}
             className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 bg-white text-black"
           />
@@ -236,9 +233,9 @@ const SizeCalculator = () => {
       <div className="mt-6">
         <button
           onClick={handleSeeMySizes}
-          disabled={!!waistError || !!bustError || !!hipsError}
+          disabled={!isValidMeasurements(measurements) || !!waistError || !!bustError || !!hipsError}
           className={`w-full py-3 px-4 border border-transparent rounded-md shadow-sm text-lg font-bold ${
-            waistError || bustError || hipsError
+            !isValidMeasurements(measurements) || waistError || bustError || hipsError
               ? 'bg-pink-300 text-gray-500 cursor-not-allowed'
               : 'text-white bg-pink-600 hover:bg-pink-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-pink-500'
           }`}
