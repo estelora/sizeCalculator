@@ -110,7 +110,7 @@ const SizeCalculator = () => {
   };
 
   const handleSeeMySizes = () => {
-    if (!waistError && !bustError && !hipsError) {
+    if (!waistError && !bustError && !hipsError && measurements.bust !== null && measurements.waist !== null && measurements.hips !== null) {
       setShowResults(true);
     }
   };
