@@ -135,38 +135,107 @@ const SizeCalculator = () => {
   };
 
   const calculateSizes = () => {
-    if (!showResults || measurements.bust === null || measurements.waist === null || measurements.hips === null) return null;
+    if (!showResults) return null;
   
     return Object.entries(sizeCharts).map(([brand, sizes]) => {
       const closestSize = sizes.reduce((closest, current) => {
-        const currentDiff = 
-          Math.abs(current.bust - (measurements.bust ?? 0)) +
-          Math.abs(current.waist - (measurements.waist ?? 0)) +
-          Math.abs(current.hips - (measurements.hips ?? 0));
-        const closestDiff = 
-          Math.abs(closest.bust - (measurements.bust ?? 0)) +
-          Math.abs(closest.waist - (measurements.waist ?? 0)) +
-          Math.abs(closest.hips - (measurements.hips ?? 0));
+        const currentDiff = Math.abs(current.bust - measurements.bust) +
+                            Math.abs(current.waist - measurements.waist) +
+                            Math.abs(current.hips - measurements.hips);
+        const closestDiff = Math.abs(closest.bust - measurements.bust) +
+                            Math.abs(closest.waist - measurements.waist) +
+                            Math.abs(closest.hips - measurements.hips);
         return currentDiff < closestDiff ? current : closest;
       });
   
-      const bustDiff = ((measurements.bust ?? 0) - closestSize.bust).toFixed(2);
-      const waistDiff = ((measurements.waist ?? 0) - closestSize.waist).toFixed(2);
-      const hipsDiff = ((measurements.hips ?? 0) - closestSize.hips).toFixed(2);
+      const bustDiff = (measurements.bust - closestSize.bust).toFixed(2);
+      const waistDiff = (measurements.waist - closestSize.waist).toFixed(2);
+      const hipsDiff = (measurements.hips - closestSize.hips).toFixed(2);
 
-      return (
-        <li key={brand} className="p-3 bg-white rounded-lg shadow mb-4">
-          <span className="font-semibold text-lg text-pink-600">{brand}</span>
-          <span className="block text-3xl font-bold text-gray-800 mt-1">Size {closestSize.size}</span>
-          <div className="mt-2 text-sm text-gray-600">
-            <p>Bust: {closestSize.bust}" (Difference: {bustDiff}")</p>
-            <p>Waist: {closestSize.waist}" (Difference: {waistDiff}")</p>
-            <p>Hips: {closestSize.hips}" (Difference: {hipsDiff}")</p>
-          </div>
-        </li>
-      );
+    return (
+      <li key={brand} className="p-3 bg-white rounded-lg shadow mb-4">
+        <span className="font-semibold text-lg text-pink-600">{brand}</span>
+        <span className="block text-3xl font-bold text-gray-800 mt-1">Size {closestSize.size}</span>
+        <div className="mt-2 text-sm text-gray-600">
+          <p>Bust: {closestSize.bust}" (Difference: {bustDiff}")</p>
+          <p>Waist: {closestSize.waist}" (Difference: {waistDiff}")</p>
+          <p>Hips: {closestSize.hips}" (Difference: {hipsDiff}")</p>
+        </div>
+      </li>
+    );
     });
   };
+
+  return (
+    <div className="max-w-md mx-auto p-6 bg-gray-100 rounded-lg shadow-xl">
+      <h1 className="text-4xl font-bold mb-8 text-gray-800 text-center">Women's Size Calculator</h1>
+      <div className="space-y-4">
+        <div>
+          <label htmlFor="bust" className="block text-lg font-bold text-gray-700 mb-1">Bust (inches)</label>
+          <input
+            type="number"
+            id="bust"
+            name="bust"
+            value={measurements.bust ?? ''}
+            onChange={handleInputChange}
+            className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 bg-white text-black"
+          />
+          {bustError && (
+            <p className="mt-2 text-sm text-red-600">{bustError}</p>
+          )}
+        </div>
+        <div>
+          <label htmlFor="waist" className="block text-lg font-bold text-gray-700 mb-1">Waist (inches)</label>
+          <input
+            type="number"
+            id="waist"
+            name="waist"
+            value={measurements.bust ?? ''}
+            onChange={handleInputChange}
+            className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 bg-white text-black"
+          />
+          {waistError && (
+            <p className="mt-2 text-sm text-red-600">{waistError}</p>
+          )}
+        </div>
+        <div>
+          <label htmlFor="hips" className="block text-lg font-bold text-gray-700 mb-1">Hips (inches)</label>
+          <input
+            type="number"
+            id="hips"
+            name="hips"
+            value={measurements.bust ?? ''}
+            onChange={handleInputChange}
+            className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 bg-white text-black"
+          />
+          {hipsError && (
+            <p className="mt-2 text-sm text-red-600">{hipsError}</p>
+          )}
+        </div>
+      </div>
+      <div className="mt-6">
+        <button
+          onClick={handleSeeMySizes}
+          disabled={!!waistError || !!bustError || !!hipsError}
+          className={`w-full py-3 px-4 border border-transparent rounded-md shadow-sm text-lg font-bold ${
+            waistError || bustError || hipsError
+              ? 'bg-pink-300 text-gray-500 cursor-not-allowed'
+              : 'text-white bg-pink-600 hover:bg-pink-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-pink-500'
+          }`}
+        >
+          See my sizes
+        </button>
+      </div>
+      {showResults && (
+        <div className="mt-8">
+          <h2 className="text-xl font-semibold mb-4 text-gray-800">Closest Size Matches:</h2>
+          <div className="bg-pink-100 rounded-lg shadow-md p-4">
+            <ul className="space-y-2">{calculateSizes()}</ul>
+          </div>
+        </div>
+      )}
+    </div>
+  );
 };
 
 export default SizeCalculator;
