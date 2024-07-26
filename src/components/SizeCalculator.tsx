@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 
 const SizeCalculator = () => {
-  const [measurements, setMeasurements] = useState<{ bust: number; waist: number; hips: number }>({ bust: 0, waist: 0, hips: 0 });
+  const [measurements, setMeasurements] = useState<{ bust: number | null; waist: number | null; hips: number | null }>({ bust: null, waist: null, hips: null });
   const [showResults, setShowResults] = useState(false);
   const [waistError, setWaistError] = useState('');
   const [bustError, setBustError] = useState('');
@@ -67,7 +67,7 @@ const SizeCalculator = () => {
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    const numValue = parseFloat(value) || 0; // Convert to number, use 0 if NaN
+    const numValue = value === '' ? null : parseFloat(value);
     setMeasurements(prev => ({ ...prev, [name]: numValue }));
   
     if (name === 'waist') {
@@ -157,7 +157,7 @@ const SizeCalculator = () => {
             type="number"
             id="bust"
             name="bust"
-            value={measurements.bust}
+            value={measurements.bust ?? ''}
             onChange={handleInputChange}
             className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 bg-white text-black"
           />
@@ -171,7 +171,7 @@ const SizeCalculator = () => {
             type="number"
             id="waist"
             name="waist"
-            value={measurements.waist}
+            value={measurements.bust ?? ''}
             onChange={handleInputChange}
             className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 bg-white text-black"
           />
@@ -185,7 +185,7 @@ const SizeCalculator = () => {
             type="number"
             id="hips"
             name="hips"
-            value={measurements.hips}
+            value={measurements.bust ?? ''}
             onChange={handleInputChange}
             className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 bg-white text-black"
           />
