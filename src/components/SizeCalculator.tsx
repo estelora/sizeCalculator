@@ -12,6 +12,10 @@ type NonNullMeasurements = {
   hips: number;
 };
 
+const isValidMeasurements = (measurements: Measurements): measurements is NonNullMeasurements => {
+  return measurements.bust !== null && measurements.waist !== null && measurements.hips !== null;
+};
+
 const SizeCalculator = () => {
   const [measurements, setMeasurements] = useState<Measurements>({ bust: null, waist: null, hips: null });
   const [showResults, setShowResults] = useState(false);
