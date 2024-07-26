@@ -1,7 +1,13 @@
 import React, { useState } from 'react';
 
+type Measurements = {
+  bust: number | null;
+  waist: number | null;
+  hips: number | null;
+};
+
 const SizeCalculator = () => {
-  const [measurements, setMeasurements] = useState<{ bust: number | null; waist: number | null; hips: number | null }>({ bust: null, waist: null, hips: null });
+  const [measurements, setMeasurements] = useState<Measurements>({ bust: null, waist: null, hips: null });
   const [showResults, setShowResults] = useState(false);
   const [waistError, setWaistError] = useState('');
   const [bustError, setBustError] = useState('');
@@ -135,34 +141,38 @@ const SizeCalculator = () => {
   };
 
   const calculateSizes = () => {
-    if (!showResults) return null;
+    if (!showResults || measurements.bust === null || measurements.waist === null || measurements.hips === null) return null;
+  
+    const validMeasurements: Required<Measurements> = measurements as Required<Measurements>;
   
     return Object.entries(sizeCharts).map(([brand, sizes]) => {
       const closestSize = sizes.reduce((closest, current) => {
-        const currentDiff = Math.abs(current.bust - measurements.bust) +
-                            Math.abs(current.waist - measurements.waist) +
-                            Math.abs(current.hips - measurements.hips);
-        const closestDiff = Math.abs(closest.bust - measurements.bust) +
-                            Math.abs(closest.waist - measurements.waist) +
-                            Math.abs(closest.hips - measurements.hips);
+        const currentDiff = 
+          Math.abs(current.bust - validMeasurements.bust) +
+          Math.abs(current.waist - validMeasurements.waist) +
+          Math.abs(current.hips - validMeasurements.hips);
+        const closestDiff = 
+          Math.abs(closest.bust - validMeasurements.bust) +
+          Math.abs(closest.waist - validMeasurements.waist) +
+          Math.abs(closest.hips - validMeasurements.hips);
         return currentDiff < closestDiff ? current : closest;
       });
   
-      const bustDiff = (measurements.bust - closestSize.bust).toFixed(2);
-      const waistDiff = (measurements.waist - closestSize.waist).toFixed(2);
-      const hipsDiff = (measurements.hips - closestSize.hips).toFixed(2);
+      const bustDiff = (validMeasurements.bust - closestSize.bust).toFixed(2);
+      const waistDiff = (validMeasurements.waist - closestSize.waist).toFixed(2);
+      const hipsDiff = (validMeasurements.hips - closestSize.hips).toFixed(2);
 
-    return (
-      <li key={brand} className="p-3 bg-white rounded-lg shadow mb-4">
-        <span className="font-semibold text-lg text-pink-600">{brand}</span>
-        <span className="block text-3xl font-bold text-gray-800 mt-1">Size {closestSize.size}</span>
-        <div className="mt-2 text-sm text-gray-600">
-          <p>Bust: {closestSize.bust}" (Difference: {bustDiff}")</p>
-          <p>Waist: {closestSize.waist}" (Difference: {waistDiff}")</p>
-          <p>Hips: {closestSize.hips}" (Difference: {hipsDiff}")</p>
-        </div>
-      </li>
-    );
+      return (
+        <li key={brand} className="p-3 bg-white rounded-lg shadow mb-4">
+          <span className="font-semibold text-lg text-pink-600">{brand}</span>
+          <span className="block text-3xl font-bold text-gray-800 mt-1">Size {closestSize.size}</span>
+          <div className="mt-2 text-sm text-gray-600">
+            <p>Bust: {closestSize.bust}" (Difference: {bustDiff}")</p>
+            <p>Waist: {closestSize.waist}" (Difference: {waistDiff}")</p>
+            <p>Hips: {closestSize.hips}" (Difference: {hipsDiff}")</p>
+          </div>
+        </li>
+      );
     });
   };
 
