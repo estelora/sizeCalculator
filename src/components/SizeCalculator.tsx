@@ -70,12 +70,31 @@ const SizeCalculator = () => {
     const numValue = value === '' ? null : parseFloat(value);
     setMeasurements(prev => ({ ...prev, [name]: numValue }));
   
-    if (name === 'waist') {
-      checkWaistMeasurement(numValue);
-    } else if (name === 'bust') {
-      checkBustMeasurement(numValue);
-    } else if (name === 'hips') {
-      checkHipsMeasurement(numValue);
+    if (numValue !== null) {
+      switch (name) {
+        case 'waist':
+          checkWaistMeasurement(numValue);
+          break;
+        case 'bust':
+          checkBustMeasurement(numValue);
+          break;
+        case 'hips':
+          checkHipsMeasurement(numValue);
+          break;
+      }
+    } else {
+      // Clear error when input is empty
+      switch (name) {
+        case 'waist':
+          setWaistError('');
+          break;
+        case 'bust':
+          setBustError('');
+          break;
+        case 'hips':
+          setHipsError('');
+          break;
+      }
     }
   };
 
