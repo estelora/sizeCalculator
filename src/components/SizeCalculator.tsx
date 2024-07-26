@@ -6,6 +6,12 @@ type Measurements = {
   hips: number | null;
 };
 
+type NonNullMeasurements = {
+  bust: number;
+  waist: number;
+  hips: number;
+};
+
 const SizeCalculator = () => {
   const [measurements, setMeasurements] = useState<Measurements>({ bust: null, waist: null, hips: null });
   const [showResults, setShowResults] = useState(false);
