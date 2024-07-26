@@ -70,11 +70,11 @@ const SizeCalculator = () => {
     const numValue = value === '' ? null : parseFloat(value);
     setMeasurements(prev => ({ ...prev, [name]: numValue }));
   
-    if (name === 'waist') {
+    if (name === 'waist' && numValue !== null) {
       checkWaistMeasurement(numValue);
-    } else if (name === 'bust') {
+    } else if (name === 'bust' && numValue !== null) {
       checkBustMeasurement(numValue);
-    } else if (name === 'hips') {
+    } else if (name === 'hips' && numValue !== null) {
       checkHipsMeasurement(numValue);
     }
   };
