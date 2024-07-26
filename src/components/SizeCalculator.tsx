@@ -17,11 +17,11 @@ const isValidMeasurements = (measurements: Measurements): measurements is NonNul
 };
 
 const SizeCalculator = () => {
-  const [measurements, setMeasurements] = useState<Measurements>({ bust: null, waist: null, hips: null });
-  const [showResults, setShowResults] = useState(false);
-  const [waistError, setWaistError] = useState('');
-  const [bustError, setBustError] = useState('');
-  const [hipsError, setHipsError] = useState('');
+    const [measurements, setMeasurements] = useState<Measurements>({ bust: null, waist: null, hips: null });
+    const [showResults, setShowResults] = useState(false);
+    const [waistError, setWaistError] = useState('');
+    const [bustError, setBustError] = useState('');
+    const [hipsError, setHipsError] = useState('');
 
   // Smallest and largest measurements from the data
   const smallestWaist = 25; // Smallest waist size from Zara's data
