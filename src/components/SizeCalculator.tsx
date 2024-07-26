@@ -116,7 +116,7 @@ const SizeCalculator = () => {
   };
 
   const calculateSizes = () => {
-    if (!showResults) return null;
+    if (!showResults || measurements.bust === null || measurements.waist === null || measurements.hips === null) return null;
   
     return Object.entries(sizeCharts).map(([brand, sizes]) => {
       const closestSize = sizes.reduce((closest, current) => {
@@ -171,7 +171,7 @@ const SizeCalculator = () => {
             type="number"
             id="waist"
             name="waist"
-            value={measurements.bust ?? ''}
+            value={measurements.waist ?? ''}
             onChange={handleInputChange}
             className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 bg-white text-black"
           />
@@ -185,7 +185,7 @@ const SizeCalculator = () => {
             type="number"
             id="hips"
             name="hips"
-            value={measurements.bust ?? ''}
+            value={measurements.hips ?? ''}
             onChange={handleInputChange}
             className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 bg-white text-black"
           />
@@ -197,9 +197,9 @@ const SizeCalculator = () => {
       <div className="mt-6">
         <button
           onClick={handleSeeMySizes}
-          disabled={!!waistError || !!bustError || !!hipsError}
+          disabled={!!waistError || !!bustError || !!hipsError || measurements.bust === null || measurements.waist === null || measurements.hips === null}
           className={`w-full py-3 px-4 border border-transparent rounded-md shadow-sm text-lg font-bold ${
-            waistError || bustError || hipsError
+            waistError || bustError || hipsError || measurements.bust === null || measurements.waist === null || measurements.hips === null
               ? 'bg-pink-300 text-gray-500 cursor-not-allowed'
               : 'text-white bg-pink-600 hover:bg-pink-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-pink-500'
           }`}
