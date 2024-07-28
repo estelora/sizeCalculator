@@ -17,14 +17,43 @@ If you are developing a production application, we recommend updating the config
 export default {
   // other rules...
   parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    project: ['./tsconfig.json', './tsconfig.node.json', './tsconfig.app.json'],
+    ecmaVersion: "latest",
+    sourceType: "module",
+    project: ["./tsconfig.json", "./tsconfig.node.json", "./tsconfig.app.json"],
     tsconfigRootDir: __dirname,
   },
-}
+};
 ```
 
 - Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
 - Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
 - Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
+
+## Nix Development Environment
+
+In order to use/activate the Nix based development environment, we need to install:
+
+1. nix
+2. direnv
+
+Then, we can run:
+
+```bash
+direnv allow .
+eval "$(direnv hook bash)"
+# This will automatically evaluate the package.json and install the needed nodejs deps.
+```
+
+We can then do:
+
+```bash
+npm run dev
+```
+
+Which should run the application. Also, we will activate git commit hooks which apply linting rules.
+
+If we want to jump into a shell with nodejs deps and other dev tools, we can run:
+
+```bash
+nix develop --impure
+```
