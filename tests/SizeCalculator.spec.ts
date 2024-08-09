@@ -3,7 +3,7 @@ import { test, expect } from '@playwright/test';
 test.describe('SizeCalculator', () => {
   test.beforeEach(async ({ page }) => {
     // Navigate to the page where your SizeCalculator component is rendered
-    await page.goto('zoo-keeper-lizard-13777.netlify.app');
+    await page.goto('https://zoo-keeper-lizard-13777.netlify.app');
   });
 
   test('should render the SizeCalculator component', async ({ page }) => {
